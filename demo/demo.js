@@ -41,7 +41,7 @@
 define(function(require, exports, module) {
 
 exports.launch = function(env) {
-    var canon = require("pilot/canon");
+    var commands = require("ace/commands/command_manager");
     var event = require("pilot/event");
     var Range = require("ace/range").Range;
     var Editor = require("ace/editor").Editor;
@@ -191,7 +191,6 @@ exports.launch = function(env) {
     }
 
     var container = document.getElementById("editor");
-    var cockpitInput = document.getElementById("cockpitInput");
 
     // Splitting.
     var Split = require("ace/split").Split;
@@ -477,17 +476,13 @@ exports.launch = function(env) {
     function onResize() {
         var width = (document.documentElement.clientWidth - 280);
         container.style.width = width + "px";
-        cockpitInput.style.width = width + "px";
-        container.style.height = (document.documentElement.clientHeight - 22) + "px";
+        container.style.height = document.documentElement.clientHeight + "px";
         env.split.resize();
 //        env.editor.resize();
     };
 
     window.onresize = onResize;
     onResize();
-
-    // Call resize on the cli explizit. This is necessary for Firefox.
-    env.cli.cliView.resizer()
 
     event.addListener(container, "dragover", function(e) {
         return event.preventDefault(e);
@@ -560,34 +555,8 @@ exports.launch = function(env) {
      * This demonstrates how you can define commands and bind shortcuts to them.
      */
 
-    // Command to focus the command line from the editor.
-    canon.addCommand({
-        name: "focuscli",
-        bindKey: {
-            win: "Ctrl-J",
-            mac: "Command-J",
-            sender: "editor"
-        },
-        exec: function() {
-            env.cli.cliView.element.focus();
-        }
-    });
-
-    // Command to focus the editor line from the command line.
-    canon.addCommand({
-        name: "focuseditor",
-        bindKey: {
-            win: "Ctrl-J",
-            mac: "Command-J",
-            sender: "cli"
-        },
-        exec: function() {
-            env.editor.focus();
-        }
-    });
-
     // Fake-Save, works from the editor and the command line.
-    canon.addCommand({
+    commands.addCommand({
         name: "save",
         bindKey: {
             win: "Ctrl-S",
@@ -618,7 +587,7 @@ exports.launch = function(env) {
         }
     });
 
-    canon.addCommand({
+    commands.addCommand({
         name: "fold",
         bindKey: {
             win: "Alt-L",
@@ -630,7 +599,7 @@ exports.launch = function(env) {
         }
     });
 
-    canon.addCommand({
+    commands.addCommand({
         name: "unfold",
         bindKey: {
             win: "Alt-Shift-L",

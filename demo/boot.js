@@ -35,25 +35,6 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-define(function(require, exports, module) {
-
-require("pilot/fixoldbrowsers");
-require("pilot/plugin_manager");
-require("pilot/settings");
-require("pilot/environment");
-require("demo/demo");
-
-require("pilot/index");
-require("cockpit/index");
-require("ace/defaults");
-
-var plugins = [ "pilot/index", "cockpit/index", "ace/defaults" ];
-var catalog = require("pilot/plugin_manager").catalog;
-catalog.registerPlugins(plugins).then(function() {
-    var env = require("pilot/environment").create();
-    catalog.startupPlugins({ env: env }).then(function() {
-        require("demo/demo").launch(env);
-    });
-});
-
+require([ "pilot/fixoldbrowsers", "demo/demo" ], function() {
+    require("demo/demo").launch({});
 });
