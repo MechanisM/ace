@@ -14,7 +14,7 @@ var tests = [
      require("ace/editor_navigation_test"),
      require("ace/editor_highlight_selected_word_test"),
      require("ace/editor_text_edit_test"),
-     require("ace/document_test"),
+     require("ace/model/document_test"),
      require("ace/edit_session_test"),
      require("ace/test/event_emitter_test"),
      require("ace/range_test"),
